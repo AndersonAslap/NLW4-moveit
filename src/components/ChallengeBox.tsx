@@ -1,36 +1,46 @@
 import { useContext } from 'react';
 import { ChallengesContext } from '../contexts/ChallengeContext';
+import { CountdownContext } from '../contexts/CountdownContext';
 import styles from '../styles/components/ChallengeBox.module.css';
 
 export function ChallengeBox() {
 
-    const contextData = useContext(ChallengesContext);
+    const { activeChallenge, resetChallenge, completeChallenge} = useContext(ChallengesContext);
+    const { resetCountdown } = useContext(CountdownContext);
 
-    console.log(contextData);
+    function handleChallengeSucceeded() {
+        completeChallenge();
+        resetCountdown();
+    }
 
-    const hasActiveChallende = true;
+    function handleChallengeFailed() {
+        resetChallenge();
+        resetCountdown();
+    }
 
     return (
         <div className={styles.challengeBoxContainer}>
-            { hasActiveChallende ? (
+            { activeChallenge ? (
                 <div className={styles.challengeActive}>
-                    <header>Ganhe 400 xp</header>
+                    <header>{activeChallenge.amount} xp</header>
 
                     <main>
-                        <img src="icons/body.svg" alt=""/>
+                        <img src={`icons/${activeChallenge.type}.svg`} alt=""/>
                         <strong>Novo desafio</strong>
-                        <p>Levante e faça uma caminhada de 3 min</p>
+                        <p>{activeChallenge.description}</p>
                     </main>
 
                     <footer>
                         <button 
                             type="button"
                             className={styles.challengeFailedButton}
+                            onClick={handleChallengeFailed}
                         >Falhei</button>
                         
                         <button
                             type="button"
                             className={styles.challengeSucceededdButton}
+                            onClick={handleChallengeSucceeded}
                         >Completei</button>
                     </footer>
                 </div>
