@@ -10,6 +10,10 @@ import { ChallengeBox } from '../components/ChallengeBox';
 import styles from '../styles/pages/Home.module.css';
 import { CountdownProvider } from '../contexts/CountdownContext';
 import { ChallengesProvider } from '../contexts/ChallengeContext';
+import { SideBarLeft } from '../components/SideBarLeft';
+import { SideBarContext, SideBarProvider } from '../contexts/SideBarContext';
+import { useContext } from 'react';
+import { MainComponent } from '../components/MainComponent';
 
 interface HomeProps {
   level: number;
@@ -19,34 +23,33 @@ interface HomeProps {
 
 export default function Home(props: HomeProps) {
 
+  const teste = useContext(SideBarContext);
+  console.log(teste);
+
   return (
     <ChallengesProvider 
       level={props.level} 
       currentExperience={props.currentExperience} 
       challengesCompleted={props.challengesCompleted}
     >
-      <div className={styles.container}>
 
-        <Head>
-          <title>Inicio | move.it</title>
-        </Head>
+      <Head>
+        <title>Inicio | move.it</title>
+      </Head>
 
-        <ExperienceBar />
+      <SideBarProvider>
+        <div className={styles.containerMain}>
 
-        <CountdownProvider>
-          <section>
-            <div>
-              <Profile />
-              <CompletedChallenges />
-              <Countdown />
-            </div>
-
-            <div>
-              <ChallengeBox />
-            </div>
-          </section>
-        </CountdownProvider>
-      </div>
+          <SideBarLeft />
+        
+          <div className={styles.container}>
+      
+            <MainComponent />
+          
+          </div>
+        
+        </div>
+      </SideBarProvider>
     </ChallengesProvider>
   )
 }

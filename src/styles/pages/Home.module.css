@@ -1,6 +1,10 @@
+.containerMain {
+    display: flex;
+}
+
 .container {
     height: 100vh;
-    max-width: 992px;
+    max-width: 900px;
     margin: 0 auto;
     padding: 2.5rem 2rem;
 
